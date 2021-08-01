@@ -16,6 +16,7 @@
         </section>
         <section>
           <h2>Add URL</h2>
+          <pre id="add-url-data"></pre>
           <form action="/api/action" method="post">
             <div><input id="add-long-url" type="text" name="long_url" /></div>
             <div><button id="add-submit-btn">Submit</button></div>
@@ -35,20 +36,35 @@
 
       function addUrl(long_url) {
         const button = document.getElementById('add-submit-btn')
+        const info = document.getElementById('add-url-data')
+
+        info.classList.remove('error')
         button.disabled = true
 
-        fetch('/api/action', {
-          method: 'POST',
-          body: JSON.stringify({ long_url }),
+        const rawHeaders = new Headers()
+        rawHeaders.append('Content-Type', 'application/json')
+
+        const rawBody = JSON.stringify({
+          long_url,
         })
+
+        const requestOptions = {
+          method: 'POST',
+          headers: rawHeaders,
+          body: rawBody,
+          redirect: 'follow',
+        }
+
+        fetch('/api/action', requestOptions)
           .then(async (i) => {
             if (i.ok) {
               updateList()
             } else {
-              alert(await i.text())
+              info.classList.add('error')
             }
+            info.innerText(JSON.stringify(await i.json()))
           })
-          .finall(() => {
+          .finally(() => {
             button.disabled = false
           })
       }

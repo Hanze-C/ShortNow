@@ -47,6 +47,13 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   }
 
   async function actionPost() {
+    if (!body) {
+      return handleError.send({
+        code: 400,
+        message: 'Missing body',
+      })
+    }
+
     const long_url = body.long_url
     const short_url = body.short_url || shortid.generate()
 
@@ -118,7 +125,7 @@ export async function getByType(
     default:
       throw { code: 400, message: 'Invalid type' }
   }
-  const [data] = await dbFind('url', createFilter([filter]))
+  const [data] = await dbFind('url', filter)
   return (data as dbUrlDocument) || null
 }
 
@@ -174,6 +181,8 @@ export async function addUrl(
         message: shortData
           ? 'The short code has already been used'
           : 'The URL has already been recorded',
+        longData,
+        shortData,
       }
     }
   }
