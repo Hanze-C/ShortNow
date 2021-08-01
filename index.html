@@ -2,98 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Short URL Now</title>
-    <style>
-      .error {
-        color: #b00;
-        background-color: pink;
-      }
-    </style>
+    <title>ShortURL Now</title>
   </head>
   <body>
-    <main>
-      <h1>Short URL</h1>
-      <article>
-        <section>
-          <h2>List All</h2>
-          <ul id="list">
-            Loading...
-          </ul>
-        </section>
-        <section>
-          <h2>Add URL</h2>
-          <form action="/api" method="post">
-            <div><input id="add-long-input" type="text" name="long_url" /></div>
-            <div><button id="add-submit-btn">Submit</button></div>
-          </form>
-          <pre id="add-url-info">-</pre>
-        </section>
-      </article>
-    </main>
-    <script>
-      function updateList() {
-        const ul = document.getElementById('list')
-        ul.innerText = 'Loading...'
-
-        function insertItem({ long_url, short_url }) {
-          const li = document.createElement('li')
-          li.innerHTML = `<strong>${long_url}</strong> [${short_url}] (<a href="/-/${short_url}" target="_blank">visit</a>)`
-          ul.appendChild(li)
-        }
-
-        fetch('/api?type=list_all&limit=12&offset=0')
-          .then((i) => i.json())
-          .then((i) => {
-            ul.innerText = ''
-            i.body.forEach(insertItem)
-          })
-      }
-      updateList()
-
-      function addUrl(long_url) {
-        const button = document.getElementById('add-submit-btn')
-        const info = document.getElementById('add-url-info')
-
-        info.classList.remove('error')
-        info.innerText = '-'
-        button.disabled = true
-
-        const rawHeaders = new Headers()
-        rawHeaders.append('Content-Type', 'application/json')
-
-        const rawBody = JSON.stringify({
-          long_url,
-        })
-
-        const requestOptions = {
-          method: 'POST',
-          headers: rawHeaders,
-          body: rawBody,
-          redirect: 'follow',
-        }
-
-        fetch('/api', requestOptions)
-          .then(async (i) => {
-            if (i.ok) {
-              updateList()
-            } else {
-              info.classList.add('error')
-            }
-            info.innerText = (await i.json()).message
-          })
-          .finally(() => {
-            button.disabled = false
-          })
-      }
-      document
-        .getElementById('add-submit-btn')
-        .addEventListener('click', (e) => {
-          e.preventDefault()
-          const input = document.getElementById('add-long-input')
-          addUrl(input.value)
-        })
-    </script>
+    <noscript
+      >This site requires JavaScript enabled. Please check your browser
+      settings.</noscript
+    >
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

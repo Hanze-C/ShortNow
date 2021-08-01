@@ -1,12 +1,12 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 
-interface ErrorHttpReturnBody {
+interface HttpResponseBody {
   code: number
   message: string
   body?: any
 }
 
-export class HandleError {
+export class HandleResponse {
   req: VercelRequest
   res: VercelResponse
 
@@ -15,7 +15,13 @@ export class HandleError {
     this.res = res
   }
 
-  send(error: ErrorHttpReturnBody) {
-    this.res.status(error.code).send(error)
+  send(code: number, message?: string, custom?: any) {
+    return this.res.status(code).send({ code, message, ...custom })
+  }
+
+  axiosError(err: any) {
+    return this.res
+      .status(err?.response?.status || 500)
+      .send(err?.response?.data || err)
   }
 }

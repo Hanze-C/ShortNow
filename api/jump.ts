@@ -7,7 +7,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   const url = await getByShort(short_url)
 
   if (!url) {
-    return res.redirect(`/invalid?` + stringify({ type: 'decode', short_url }))
+    return res.redirect(`/error?` + stringify({ controller: 'jump.invalid_short_url', short_url }))
   }
 
   res.redirect(url.long_url)
