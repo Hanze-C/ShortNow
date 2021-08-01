@@ -18,7 +18,7 @@ section
   form
     label
       strong 原网址
-      input(v-model="addUrlInputLong" :disabled="addLoading")
+      input(v-model="addUrlInputLong" type="url" :disabled="addLoading")
     div
       button.btn.primary(@click="addUrl" :disabled="addLoading") 提交
   pre {{ addInfo }}
@@ -137,4 +137,7 @@ form
     margin: 0 auto
     padding: 4px
     width: 300px
+
+    &:invalid
+      --placeholder: 0
 </style>
