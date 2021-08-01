@@ -7,7 +7,11 @@ section
   p.error(v-if="listError") {{ listError }}
   ul(v-if="!listLoading")
     li(v-for="item in list")
-      span 123
+      strong {{ item.long_url }}
+      | 
+      code {{ item.short_url }}
+      | 
+      a(:href="'/-/' + item.short_url" target="_blank") 访问
 
 section
   h2 缩短 URL
