@@ -5,6 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Short URL Now</title>
+    <style>
+      .error {
+        color: #b00;
+        background-color: pink;
+      }
+    </style>
   </head>
   <body>
     <main>
@@ -31,9 +37,9 @@
         const ul = document.getElementById('list')
         ul.innerText = 'Loading...'
 
-        function insertItem(i) {
+        function insertItem({ long_url, short_url }) {
           const li = document.createElement('li')
-          li.innerHTML = `<strong>${i.long_url}</strong> ${i.short_url} (<a href="/-/${short_url}" target="_blank">visit</a>)`
+          li.innerHTML = `<strong>${long_url}</strong> ${short_url} (<a href="/-/${short_url}" target="_blank">visit</a>)`
           ul.appendChild(li)
         }
 
