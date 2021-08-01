@@ -42,7 +42,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 #nprogress
   .bar
     background-color: var(--theme-secondary-color)

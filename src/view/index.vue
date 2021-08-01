@@ -21,16 +21,19 @@ section
       input(v-model="addUrlInputLong" :disabled="addLoading")
     div
       button.btn.primary(@click="addUrl" :disabled="addLoading") 提交
-  pre {{ addInfo }}
-  div.error(v-if="addError") {{ addError }}
+  modal(v-model:show="addModal")
+    pre.info(v-if="addInfo") {{ addInfo }}
+    .error(v-if="addError") {{ addError }}
 </template>
 
 <script lang="ts">
 import axios from 'axios'
 import { defineComponent } from 'vue'
 
+import Modal from '../components/Modal.vue'
+
 export default defineComponent({
-  components: {},
+  components: { Modal },
   data() {
     return {
       list: [],
@@ -39,6 +42,7 @@ export default defineComponent({
       listError: '',
       addLoading: false,
       addError: '',
+      addModal: false,
       addInfo: '',
     }
   },
@@ -72,6 +76,7 @@ export default defineComponent({
     addUrl(e: any) {
       e.preventDefault()
       if (!/^https?:\/\/.+/.test(this.addUrlInputLong)) {
+        this.addModal = true
         this.addError = 'URL 格式有误！'
         return
       }
@@ -87,7 +92,7 @@ export default defineComponent({
         .then(
           ({ data }) => {
             this.addUrlInputLong = ''
-            this.addInfo = JSON.stringify(data)
+            this.addInfo = JSON.stringify(data, null, 2)
             this.getList()
           },
           (err) => {
@@ -96,6 +101,7 @@ export default defineComponent({
           }
         )
         .finally(() => {
+          this.addModal = true
           this.addLoading = false
         })
     },

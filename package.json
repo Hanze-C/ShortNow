@@ -9,6 +9,7 @@
   "private": true,
   "scripts": {
     "start": "vite",
+    "serve": "vercel dev",
     "build": "vite build"
   },
   "dependencies": {
