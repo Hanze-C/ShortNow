@@ -7,12 +7,51 @@
     <title>Short URL Now</title>
   </head>
   <body>
-    <pre id="list"></pre>
+    <main>
+      <h1>Short URL</h1>
+      <article>
+        <section>
+          <h2>List All</h2>
+          <pre id="list">Loading...</pre>
+        </section>
+        <section>
+          <h2>Add URL</h2>
+          <form action="/api/action" method="post">
+            <div><input type="text" name="long_url" /></div>
+            <div><button id="submitAdd">Submit</button></div>
+          </form>
+        </section>
+      </article>
+    </main>
     <script>
-      const container = document.getElementById('list')
-      fetch('/api/action?type=list_all&limit=12&offset=0')
-        .then((i) => i.json())
-        .then((i) => (container.innerText = JSON.stringify(i, null, 2)))
+      function updateList() {
+        const container = document.getElementById('list')
+        container.innerText = 'Loading...'
+        fetch('/api/action?type=list_all&limit=12&offset=0')
+          .then((i) => i.json())
+          .then((i) => (container.innerText = JSON.stringify(i, null, 2)))
+      }
+      updateList()
+
+      function addUrl(long_url) {
+        const button = document.getElementById('submitAdd')
+        button.disabled = true
+
+        fetch('/api/action', {
+          method: 'POST',
+          body: JSON.stringify({ long_url }),
+        })
+          .then(async (i) => {
+            if (i.ok) {
+              updateList()
+            } else {
+              alert(await i.text())
+            }
+          })
+          .finall(() => {
+            button.disabled = false
+          })
+      }
     </script>
   </body>
 </html>

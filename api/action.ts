@@ -114,6 +114,7 @@ export async function getByType(
       break
     case 'short':
       filter['short_url'] = content
+      break
     default:
       throw { code: 400, message: 'Invalid type' }
   }
@@ -138,6 +139,23 @@ export async function addUrl(
   const updateData = {
     long_url,
     short_url,
+  }
+
+  if (!shortid.isValid(short_url)) {
+    throw {
+      code: 400,
+      message: 'Invalid short_url',
+    }
+  }
+
+  try {
+    const url = new URL(long_url)
+    if (!['http'].includes(url.protocol)) throw ''
+  } catch (err) {
+    throw {
+      code: 400,
+      message: 'Invalid URL or protocol',
+    }
   }
 
   const [longData, shortData] = await Promise.all([
