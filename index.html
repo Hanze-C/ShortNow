@@ -12,7 +12,9 @@
       <article>
         <section>
           <h2>List All</h2>
-          <pre id="list">Loading...</pre>
+          <ul id="list">
+            Loading...
+          </ul>
         </section>
         <section>
           <h2>Add URL</h2>
@@ -20,17 +22,26 @@
             <div><input id="add-long-input" type="text" name="long_url" /></div>
             <div><button id="add-submit-btn">Submit</button></div>
           </form>
-          <pre id="add-url-info"></pre>
+          <pre id="add-url-info">-</pre>
         </section>
       </article>
     </main>
     <script>
       function updateList() {
-        const container = document.getElementById('list')
-        container.innerText = 'Loading...'
+        const ul = document.getElementById('list')
+        ul.innerText = 'Loading...'
+
+        function insertItem(i) {
+          const li = document.createElement('li')
+          li.innerHTML = `<strong>${i.long_url}</strong> ${i.short_url} (<a href="/-/${short_url}" target="_blank">visit</a>)`
+          ul.appendChild(li)
+        }
+
         fetch('/api?type=list_all&limit=12&offset=0')
           .then((i) => i.json())
-          .then((i) => (container.innerText = JSON.stringify(i, null, 2)))
+          .then((i) => {
+            i.body.forEach(insertItem)
+          })
       }
       updateList()
 
@@ -39,6 +50,7 @@
         const info = document.getElementById('add-url-info')
 
         info.classList.remove('error')
+        info.innerText = '-'
         button.disabled = true
 
         const rawHeaders = new Headers()
@@ -62,7 +74,7 @@
             } else {
               info.classList.add('error')
             }
-            info.innerText = JSON.stringify(await i.json())
+            info.innerText = (await i.json()).message
           })
           .finally(() => {
             button.disabled = false
