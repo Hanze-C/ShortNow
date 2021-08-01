@@ -28,7 +28,7 @@
       function updateList() {
         const container = document.getElementById('list')
         container.innerText = 'Loading...'
-        fetch('/api/action?type=list_all&limit=12&offset=0')
+        fetch('/api?type=list_all&limit=12&offset=0')
           .then((i) => i.json())
           .then((i) => (container.innerText = JSON.stringify(i, null, 2)))
       }
