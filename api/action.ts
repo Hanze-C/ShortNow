@@ -26,23 +26,23 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
   // Actions
   async function actionGet() {
-    if (query.short_url) {
+    if (query.type === 'by_short') {
       return res.send({
         code: 200,
         body: await getByShort(query.short_url as string),
       })
-    } else if (query.long_url) {
+    } else if (query.type === 'by_long') {
       return res.send({
         code: 200,
         body: await getByLong(query.long_url as string),
       })
-    } else if (query.type === 'list') {
+    } else if (query.type === 'list_all') {
       return res.send({
         code: 200,
         body: await getList(Number(query.limit), Number(query.offset)),
       })
     } else {
-      return handleError.send({ code: 400, message: 'Invalid query' })
+      return handleError.send({ code: 400, message: 'Invalid type' })
     }
   }
 
