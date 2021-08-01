@@ -1,6 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { stringify } from 'querystring'
-import { getByShort } from './action'
+import { getByShort } from '.'
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   const short_url = (req.query.short_url as string) || ''

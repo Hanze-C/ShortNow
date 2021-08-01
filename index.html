@@ -16,11 +16,11 @@
         </section>
         <section>
           <h2>Add URL</h2>
-          <pre id="add-url-data"></pre>
-          <form action="/api/action" method="post">
-            <div><input id="add-long-url" type="text" name="long_url" /></div>
+          <form action="/api" method="post">
+            <div><input id="add-long-input" type="text" name="long_url" /></div>
             <div><button id="add-submit-btn">Submit</button></div>
           </form>
+          <pre id="add-url-info"></pre>
         </section>
       </article>
     </main>
@@ -36,7 +36,7 @@
 
       function addUrl(long_url) {
         const button = document.getElementById('add-submit-btn')
-        const info = document.getElementById('add-url-data')
+        const info = document.getElementById('add-url-info')
 
         info.classList.remove('error')
         button.disabled = true
@@ -55,14 +55,14 @@
           redirect: 'follow',
         }
 
-        fetch('/api/action', requestOptions)
+        fetch('/api', requestOptions)
           .then(async (i) => {
             if (i.ok) {
               updateList()
             } else {
               info.classList.add('error')
             }
-            info.innerText(JSON.stringify(await i.json()))
+            info.innerText = JSON.stringify(await i.json())
           })
           .finally(() => {
             button.disabled = false
@@ -72,7 +72,7 @@
         .getElementById('add-submit-btn')
         .addEventListener('click', (e) => {
           e.preventDefault()
-          const input = document.getElementById('add-long-url')
+          const input = document.getElementById('add-long-input')
           addUrl(input.value)
         })
     </script>
