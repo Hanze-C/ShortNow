@@ -150,7 +150,7 @@ export async function addUrl(
 
   try {
     const url = new URL(long_url)
-    if (!['http'].includes(url.protocol)) throw ''
+    if (!['http:', 'https:'].includes(url.protocol)) throw ''
   } catch (err) {
     throw {
       code: 400,

@@ -17,8 +17,8 @@
         <section>
           <h2>Add URL</h2>
           <form action="/api/action" method="post">
-            <div><input type="text" name="long_url" /></div>
-            <div><button id="submitAdd">Submit</button></div>
+            <div><input id="add-long-url" type="text" name="long_url" /></div>
+            <div><button id="add-submit-btn">Submit</button></div>
           </form>
         </section>
       </article>
@@ -34,7 +34,7 @@
       updateList()
 
       function addUrl(long_url) {
-        const button = document.getElementById('submitAdd')
+        const button = document.getElementById('add-submit-btn')
         button.disabled = true
 
         fetch('/api/action', {
@@ -52,6 +52,13 @@
             button.disabled = false
           })
       }
+      document
+        .getElementById('add-submit-btn')
+        .addEventListener('click', (e) => {
+          e.preventDefault()
+          const input = document.getElementById('add-long-url')
+          addUrl(input.value)
+        })
     </script>
   </body>
 </html>
