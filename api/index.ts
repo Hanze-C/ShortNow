@@ -148,13 +148,6 @@ export async function addUrl(
     short_url,
   }
 
-  if (!shortid.isValid(short_url)) {
-    throw {
-      code: 400,
-      message: 'Invalid short_url',
-    }
-  }
-
   try {
     const url = new URL(long_url)
     if (!['http:', 'https:'].includes(url.protocol)) throw ''
