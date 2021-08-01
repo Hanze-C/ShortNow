@@ -4,6 +4,7 @@ h1 ShortURL Now
 section
   h2 查看全部
   p.loading(v-if="listLoading") 加载中……
+  p.error(v-if="listError") {{ listError }}
   ul(v-if="!listLoading")
     li(v-for="item in list")
       span 123
@@ -31,6 +32,7 @@ export default defineComponent({
       list: [],
       addUrlInputLong: '',
       listLoading: false,
+      listError: '',
       addLoading: false,
       addError: '',
       addInfo: '',
@@ -40,16 +42,27 @@ export default defineComponent({
     getList(offset = 0, limit = 10) {
       this.list = []
       this.listLoading = true
+      this.listError = ''
 
       axios
         .get('/api', {
           params: {
+            mode: 'list_all',
             offset,
             limit,
           },
         })
-        .then(({ data }) => {
-          this.list = data.body
+        .then(
+          ({ data }) => {
+            this.list = data.body
+          },
+          (err) => {
+            console.error('getList', err)
+            this.listError = err?.response?.data?.message || err.message
+          }
+        )
+        .finally(() => {
+          this.listLoading = false
         })
     },
     addUrl(e: any) {
