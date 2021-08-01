@@ -39,13 +39,14 @@
 
         function insertItem({ long_url, short_url }) {
           const li = document.createElement('li')
-          li.innerHTML = `<strong>${long_url}</strong> ${short_url} (<a href="/-/${short_url}" target="_blank">visit</a>)`
+          li.innerHTML = `<strong>${long_url}</strong> [${short_url}] (<a href="/-/${short_url}" target="_blank">visit</a>)`
           ul.appendChild(li)
         }
 
         fetch('/api?type=list_all&limit=12&offset=0')
           .then((i) => i.json())
           .then((i) => {
+            ul.innerText = ''
             i.body.forEach(insertItem)
           })
       }
