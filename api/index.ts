@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import shortid from 'shortid'
+import { nanoid } from 'nanoid'
 import {
   createFilter,
   dbDeleteOne,
@@ -49,7 +49,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     }
 
     const long_url = body?.long_url
-    const short_url = body?.short_url || shortid.generate()
+    const short_url = body?.short_url || nanoid(6)
 
     if (!long_url) {
       return http.send(400, 'Missing long_url')
@@ -97,7 +97,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
 // Random URL
 export function getShortCode() {
-  return shortid.generate()
+  return nanoid(6)
 }
 
 // Get URL
