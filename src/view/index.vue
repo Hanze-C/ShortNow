@@ -5,7 +5,7 @@ section
   h2 查看全部
   p.loading(v-if="listLoading") 加载中……
   p.error(v-if="listError") {{ listError }}
-  ul(v-if="!listLoading")
+  ul.allList(v-if="!listLoading")
     li(v-for="item in list")
       strong {{ item.long_url }}
       | 
@@ -112,6 +112,17 @@ export default defineComponent({
   background-color: #fdd
   padding: 4px
   font-weight: 600
+
+ul.allList
+  padding: 0
+
+  > li
+    display: flex
+    gap: 1rem
+
+    > strong
+      flex: 1
+
 
 form
   text-align: center

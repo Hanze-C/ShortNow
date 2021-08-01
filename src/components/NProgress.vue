@@ -46,10 +46,10 @@ export default defineComponent({
 #nprogress
   .bar
     background-color: var(--theme-secondary-color)
-    top: 50px
+    // top: 50px
 
   .spinner
-    top: 60px
+    // top: 60px
 
     .spinner-icon
       border-top-color: var(--theme-secondary-color)

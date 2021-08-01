@@ -21,7 +21,7 @@ export default defineComponent({
     switch (query.controller) {
       case 'jump.invalid_short_url':
         this.title = '跳转失败'
-        this.description = `短链接失效：${query.short_url}`
+        this.description = `短链接 ${query.short_url} 已失效`
         break
 
       default:
