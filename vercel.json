@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/-/:short_url(.+)",
+      "destination": "/api/jump"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
+}

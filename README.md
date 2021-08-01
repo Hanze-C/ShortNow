@@ -1,2 +1,3 @@
 # ShortNow
-Short URL Servise
+
+Short URL Service

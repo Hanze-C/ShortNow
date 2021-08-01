@@ -1,0 +1,19 @@
+{
+  "name": "short-now",
+  "version": "0.0.0",
+  "description": "Short URL Service",
+  "main": "index.js",
+  "repository": "git@github.com:FreeNowOrg/ShortNow.git",
+  "author": "Dragon-Fish <dragon-fish@qq.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@types/shortid": "^0.0.29",
+    "mongodb": "^4.0.1",
+    "querystring": "^0.2.1",
+    "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "vercel": "^23.0.1"
+  }
+}
