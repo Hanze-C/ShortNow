@@ -102,7 +102,7 @@ export function getShortCode() {
 
 // Get URL
 export async function getList(offset: number, limit: number) {
-  return dbFind('url', {}, { limit, skip: offset })
+  return dbFind('url', {}, { limit, skip: offset, sort: [['_id', -1]] })
 }
 
 export async function getByType(
