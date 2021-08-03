@@ -78,7 +78,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="stylus">
+<style scoped lang="sass">
 .error-page
   margin: 20vh auto
   height: 100%
