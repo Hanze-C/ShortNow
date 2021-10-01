@@ -57,13 +57,13 @@ export default defineComponent({
       addLoading: false,
       addError: '',
       addModal: false,
-      addInfo: '',
+      addInfo: {} as any,
       location: window.location,
     }
   },
   methods: {
     getList(offset = 0, limit = 10) {
-      this.list = []
+      // this.list = []
       this.listLoading = true
       this.listError = ''
 
@@ -90,6 +90,9 @@ export default defineComponent({
     },
     addUrl(e: any) {
       e.preventDefault()
+      this.addError = ''
+      this.addInfo = null
+
       if (!/^https?:\/\/.+/.test(this.addUrlInputLong)) {
         this.addModal = true
         this.addError = 'URL 格式有误！'
@@ -97,8 +100,6 @@ export default defineComponent({
       }
 
       this.addLoading = true
-      this.addError = ''
-      this.addInfo = ''
 
       axios
         .post('/api', {
@@ -107,7 +108,7 @@ export default defineComponent({
         .then(
           ({ data }) => {
             this.addUrlInputLong = ''
-            this.addInfo = JSON.stringify(data, null, 2)
+            this.addInfo = data
             this.getList()
           },
           (err) => {
@@ -120,8 +121,8 @@ export default defineComponent({
           this.addLoading = false
         })
     },
-    handleClickResult(e) {
-      const el = e.target
+    handleClickResult(e: any) {
+      const el = e.target as HTMLInputElement
       el.select()
       document.execCommand('Copy')
     },
