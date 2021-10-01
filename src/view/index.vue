@@ -2,28 +2,42 @@
 h1 ShortURL Now
 
 section
-  h2 查看全部
-  p.loading(v-if="listLoading") 加载中……
-  p.error(v-if="listError") {{ listError }}
-  ul.allList(v-if="!listLoading")
-    li(v-for="item in list")
-      strong {{ item.long_url }}
-      | 
-      code {{ item.short_url }}
-      | 
-      a(:href="'/-/' + item.short_url" target="_blank") 访问
-
-section
   h2 缩短 URL
   form
     label
       strong 原网址
-      input(v-model="addUrlInputLong" type="url" :disabled="addLoading")
+      input.long-url(
+        v-model='addUrlInputLong',
+        type='url',
+        :disabled='addLoading'
+      )
     div
-      button.btn.primary(@click="addUrl" :disabled="addLoading") 提交
-  modal(v-model:show="addModal")
-    pre.info(v-if="addInfo") {{ addInfo }}
-    .error(v-if="addError") {{ addError }}
+      button.btn.primary(@click='addUrl', :disabled='addLoading') 提交
+  modal(v-model:show='addModal')
+    .info(v-if='addInfo')
+      h3 {{ addInfo.message }}
+      input.result(
+        readonly,
+        :value='location.origin + "/-/" + addInfo.body.short_url',
+        :style='{ width: "100%" }',
+        @click='handleClickResult'
+      )
+      .desc 点击复制
+    .error(v-if='addError')
+      h3 短链接生成失败
+      p {{ addError }}
+
+section
+  h2 最近生成
+  p.loading(v-if='listLoading') 加载中……
+  p.error(v-if='listError') {{ listError }}
+  ul.allList(v-if='!listLoading')
+    li(v-for='item in list')
+      strong {{ item.long_url }}
+      |
+      code {{ item.short_url }}
+      |
+      a(:href='"/-/" + item.short_url', target='_blank') 访问
 </template>
 
 <script lang="ts">
@@ -44,6 +58,7 @@ export default defineComponent({
       addError: '',
       addModal: false,
       addInfo: '',
+      location: window.location,
     }
   },
   methods: {
@@ -105,6 +120,11 @@ export default defineComponent({
           this.addLoading = false
         })
     },
+    handleClickResult(e) {
+      const el = e.target
+      el.select()
+      document.execCommand('Copy')
+    },
   },
   mounted() {
     this.getList()
@@ -114,10 +134,8 @@ export default defineComponent({
 
 <style scoped lang="sass">
 .error
-  color: #b00
-  background-color: #fdd
-  padding: 4px
-  font-weight: 600
+  h3
+    color: #b00
 
 ul.allList
   padding: 0
@@ -128,7 +146,6 @@ ul.allList
 
     > strong
       flex: 1
-
 
 form
   text-align: center
@@ -146,4 +163,8 @@ form
 
     &:invalid
       --placeholder: 0
+
+input.result
+  padding: 4px
+  font-size: 1rem
 </style>
