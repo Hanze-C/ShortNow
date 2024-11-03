@@ -5,7 +5,7 @@ axios.defaults.timeout = 60 * 1000
 // API endpoint
 export const API_BASE =
   process.env.NODE_ENV === 'development'
-    ? 'https://short-now-git-dev-dragon-fish.vercel.app'
+    ? 'https://link.hanze.icu'
     : ''
 
 // Copyright links
